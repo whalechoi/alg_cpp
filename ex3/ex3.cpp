@@ -5,24 +5,35 @@
 // 插入、删除、按值查找、按号查找(假设所有元素值不相同)。
 
 #include <iostream>
-#include "mydata.h"
+
+using namespace std;
+
+void Move(int n, char A, char B, char C)
+{
+	if (n == 1)
+	{
+		//圆盘只有一个时，只需将其从A塔移到C塔
+		cout << "move " << n << " from " << A << " to " << C << endl;
+	}
+	else
+	{
+		Move(n - 1, A, C, B);//递归，把A塔上编号1~n-1的圆盘移到B上，以C为辅助塔
+		cout << "move " << n << " from " << A << " to " << C << endl;//把A塔上编号为n的圆盘移到C上
+		Move(n - 1, B, A, C);//递归，把B塔上编号1~n-1的圆盘移到C上，以A为辅助塔
+	}
+}
+
+void Hanoi(int n)
+{
+	if (n <= 0)
+		return;
+	Move(n, 'A', 'B', 'C');
+}
 
 int main()
 {
-    mydata<double> testmydata;
-    testmydata.ins(0.00, -1);
-    testmydata.ins(1.11, 0);
-    testmydata.ins(2.22, 1);
-    testmydata.ins(3.33, 2);
-    testmydata.ins(4.44, 3);
-    testmydata.ins(5.55, 4);
-    testmydata.ins(6.66, 5);
-    testmydata.ins(7.77, 6);
-    std::cout << testmydata[6] << std::endl;
-    std::cout << testmydata.find(3.33) << std::endl;
-    testmydata.del(0);
-    std::cout << testmydata.find(3.33) << std::endl;
-    return 0;
+	Hanoi(3);
+	return 0;
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
